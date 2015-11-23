@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" 
+           elementFormDefault="qualified" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://briccs.org.uk/xml/export-metadata-config/v1.0/em"
+           targetNamespace="http://briccs.org.uk/xml/export-metadata-config/v1.0/em">
+  
+  <xs:element name="export-metadata" type="export-metadataType"/>
+  
+  <xs:complexType name="organizationType">
+  <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="systemAcronym" use="required"/>
+        <xs:attribute type="xs:string" name="projectAcronym" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+     
+  <xs:complexType name="standard-booleans-sectionType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="value" maxOccurs="unbounded" minOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+ 
+  <xs:complexType name="exclude-from-ontologyType" mixed="true">
+    <xs:sequence>
+      <xs:element type="hintType" name="hint" maxOccurs="unbounded" minOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="name" use="required"/>
+  </xs:complexType>
+  
+  <xs:complexType name="hintType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="name" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="default-observation-startdateType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="variable" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="default-observation-enddateType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="variable" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="questionnaireType">
+    <xs:sequence>
+      <xs:element type="exclude-from-ontologyType" name="exclude-from-ontology" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="default-observation-startdateType" name="default-observation-startdate" maxOccurs="1" minOccurs="0"/>
+      <xs:element type="default-observation-enddateType" name="default-observation-enddate" maxOccurs="1" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="name" use="required"/>
+    <xs:attribute type="xs:string" name="alternateName" use="optional"/>
+    <xs:attribute type="xs:boolean" name="drivingEntity" use="optional" default="false"/>   
+  </xs:complexType>
+  
+  <xs:complexType name="questionnaire-sectionType">
+    <xs:sequence>
+      <xs:element type="questionnaireType" name="questionnaire" maxOccurs="unbounded" minOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="enumType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="hint" maxOccurs="unbounded" minOccurs="1"/>
+      <xs:element type="xs:string" name="exclude" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="name" use="required"/>
+    <xs:attribute type="xs:string" name="first" use="required"/>
+    <xs:attribute type="xs:string" name="last" use="required"/>
+    <xs:attribute type="xs:string" name="group" use="optional"/>
+  </xs:complexType>
+  
+  <xs:complexType name="enumerated-concepts-sectionType">
+    <xs:sequence>
+      <xs:element type="enumType" name="enum" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="start-date-variableType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="hint" maxOccurs="unbounded" minOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="name"/>
+  </xs:complexType>
+  
+   <xs:complexType name="end-date-variableType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="hint" maxOccurs="unbounded" minOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="name"/>
+  </xs:complexType>
+  
+  <xs:complexType name="mappingType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="hint" maxOccurs="unbounded" minOccurs="1"/>
+      <xs:element type="start-date-variableType" name="start-date-variable" maxOccurs="1" minOccurs="0"/>
+      <xs:element type="end-date-variableType" name="end-date-variable" maxOccurs="1" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="name"/>
+  </xs:complexType>
+  
+  <xs:complexType name="date-mappings-sectionType">
+    <xs:sequence>
+      <xs:element type="mappingType" name="mapping" maxOccurs="unbounded" minOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="codeType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="name" use="required"/>
+        <xs:attribute type="xs:string" name="description" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="ethnicity-code-sectionType">
+    <xs:sequence>
+      <xs:element type="codeType" name="code" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="variableName"/>
+  </xs:complexType>
+  
+  <xs:complexType name="patient-dimension-columnType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="column" use="optional"/>
+        <xs:attribute type="xs:string" name="name" use="required"/>
+        <xs:attribute type="xs:string" name="variable" use="optional"/>
+        <xs:attribute type="xs:string" name="defaultValue" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="includeType">
+    <xs:sequence>
+      <xs:element type="patient-dimension-columnType" name="patient-dimension-column" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="questionnaire" use="required"/>
+    <xs:attribute type="xs:string" name="alternateName" use="optional"/>
+  </xs:complexType>
+  
+  <xs:complexType name="patient-dimension-sectionType">
+    <xs:sequence>
+      <xs:element type="includeType" name="include"  minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="export-metadataType">
+    <xs:sequence>
+      <xs:element type="organizationType" name="organization" minOccurs="0" maxOccurs="1"/>
+      <xs:element type="xs:string" name="ontology-root-name" minOccurs="1" maxOccurs="1"/>
+      <xs:element type="xs:string" name="code-prefix"  minOccurs="1" maxOccurs="1"/>
+      <xs:element type="standard-booleans-sectionType" name="standard-booleans-section" minOccurs="0" maxOccurs="1"/>
+      <xs:element type="questionnaire-sectionType" name="questionnaire-section" minOccurs="1" maxOccurs="1"/>
+      <xs:element type="enumerated-concepts-sectionType" name="enumerated-concepts-section" minOccurs="0" maxOccurs="1"/>
+      <xs:element type="date-mappings-sectionType" name="date-mappings-section" minOccurs="0" maxOccurs="1"/>
+      <xs:element type="ethnicity-code-sectionType" name="ethnicity-code-section" minOccurs="1" maxOccurs="1"/>
+      <xs:element type="patient-dimension-sectionType" name="patient-dimension-section" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

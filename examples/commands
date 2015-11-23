@@ -1,0 +1,1 @@
+inst2xsd -outPrefix export-metadata-conf -simple-content-types string -enumerations never ./export-metadata-config.xml
